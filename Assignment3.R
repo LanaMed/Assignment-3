@@ -10,13 +10,118 @@ setwd("~/Desktop/Brown/1 BHDS2010 Statistical Programming for Health Data Scienc
 
 TextMSG <- read.csv("TextMessages.csv")
 
+#_____________________________________________________________________________
+#Importing libraries to be used throughout the data 
+install.packages("tidyverse")
+library (tidyverse)
+#install.packages("gglplot2")
+library(ggplot2)
+
 
 #______________________________________________________________________________
 #Looking at the data and understanding how it is broken down in the file
 
+names(TextMSG)
+#This produces 4 variable names that are present in the file
+
+is.data.frame (TextMSG)
+#The response of "True" suggests that our data is a data frame
+
+str(TextMSG)
+#This indicates structure and we can see that we have 50 objects with 4 
+#different variables and data types. Based on this information we have:
+#confirms that our dataset is listed as a data frame, we have a total of 50 
+#observations, four columns, and all the variables (baseline, group, Six_month,
+#and participant) are stored as integers.In addition, we can see that our 
+#dataset is in the wide format with each participant having separate columns for
+#measurements taken at different times.
+#In addition it shows that each participant has two measurements: baseline and 
+#Six_months
+
+#The data is showing that our group variable is likely an integer, even though it
+#should likely be a chategory. Double checking:
+is.factor (TextMSG$Group)
+#This confirms that our group variable needs to be adjusted to be a categorical
+#variable. To double check what the groups look like:
+table(TextMSG$Group)
+#This shows us that we have 2 groups total, each with 25 observations.
+#We can now convert Group into a factor:
+
+TextMSG$Group <- factor (TextMSG$Group)
+#Double checking that it now conversted:
+is.factor(TextMSG$Group)
+
+head(TextMSG)
+#based on how the first 6 lines of the data look, we can also see that the 
+#"Participant" variable is just the random number assigned to a participant. 
+#This gives a clearer breakdown of what the data looks like.
 
 #______________________________________________________________________________
 #Visualization 1
+#The first visualization is focused on looking at boxplots by group and time.
+#Since our data is in the wide format, we may do better by changing this into 
+#long format to help with analysing this data
+
+#To convert the data into the long format we can do the following:
+#We will use tidyverse, which was already imported above
+
+TextMSG_long <- TextMSG %>% pivot_longer (cols = c(Baseline, Six_months),
+                                          names_to = "Time",
+                                          values_to = "TextMessages")
+
+#View (TextMSG_long)
+#This confirms that we now have 100 observations, which means that our data was
+#transformed to the longer format with a new variabel called Time containing the
+#original column names (combining Baseline and Six_months into a single column)
+
+#We also can check what the data now looks like:
+str (TextMSG_long)
+head (TextMSG_long)
+#Both show that the data has been transformed.
+
+#Since the variable Time is also two measurement, we want to check if that is a
+#factor as well, and we look at the levels to identify if it needs to be adjusted:
+levels (TextMSG_long$Time)
+#Since we see NULL as the response, Time variable is not likely a factor. 
+class(TextMSG_long$Time)
+#This notes that it is stored as a "character"
+is.factor (TextMSG_long$Time)
+#This confirms that it is not, so we can convert it:
+
+TextMSG_long$Time <- factor (TextMSG_long$Time, 
+                             levels = c("Baseline", "Six_months"))
+
+is.factor(TextMSG_long$Time)
+levels (TextMSG_long$Time)
+#Now we see that the variable Time has been converted into a factor and has 
+#two levels.
+
+#Double checking that all of the variables are in the correct formats:
+str(TextMSG_long)
+#We can see that we have two variables that are factors (group and time) and 
+#two variables that are still names integers (participant and TextMessages)
+
+#Faceted Boxplot
+#using ggplot2, which was loaded earlier
+#This plot also has the data points plotted in the background to make it clearer
+#to show the spread.
+
+ggplot(TextMSG_long, aes(x=Group, y = TextMessages, fill = Group))+
+       geom_boxplot(alpha =0.4)+ 
+  geom_jitter(width = 0.20, alpha = 0.4) +
+  facet_wrap(~Time) + 
+  labs (title = "Distribution of text messages by group and time",
+        x = "Group",
+        y = "Number of text messages" ) +
+  theme_minimal() 
+       
+#Based on the box plot, at the baseline, both groups have very similar medians and 
+#also looks like they have similar spread, with no visible outliers. 
+#However after 6 months, there is a visual difference, where the medians for both 
+#groups appear to have changed, with the Group 1 showing lower mean, much more 
+#outliers and skew towareds lower number of text messages. Group 2 does not 
+#appear to show as much outliers, but most of the outliers seem to be in the 
+#higher number of messages, still showing some skew in the data. 
 
 
 #______________________________________________________________________________
@@ -24,13 +129,6 @@ TextMSG <- read.csv("TextMessages.csv")
 
 
 
-#______________________________________________________________________________
-#Visualization 3
-
-
-
-#______________________________________________________________________________
-#Visualization 4
 
 
 
