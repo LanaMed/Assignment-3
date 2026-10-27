@@ -71,7 +71,7 @@ TextMSG_long <- TextMSG %>% pivot_longer (cols = c(Baseline, Six_months),
 
 #View (TextMSG_long)
 #This confirms that we now have 100 observations, which means that our data was
-#transformed to the longer format with a new variabel called Time containing the
+#transformed to the longer format with a new variable called Time containing the
 #original column names (combining Baseline and Six_months into a single column)
 
 #We also can check what the data now looks like:
@@ -118,10 +118,15 @@ ggplot(TextMSG_long, aes(x=Group, y = TextMessages, fill = Group))+
 #Based on the box plot, at the baseline, both groups have very similar medians and 
 #also looks like they have similar spread, with no visible outliers. 
 #However after 6 months, there is a visual difference, where the medians for both 
-#groups appear to have changed, with the Group 1 showing lower mean, much more 
-#outliers and skew towareds lower number of text messages. Group 2 does not 
-#appear to show as much outliers, but most of the outliers seem to be in the 
-#higher number of messages, still showing some skew in the data. 
+#groups appear to have changed, with  Group 1 showing lower median and much more 
+#outliers. Group 1 also appears to show a skew towareds lower number of text 
+#messages. The outliers for group 1 appear to be more spread out and both above
+#and below group data. Group 2's median visually appears slightly lower then 
+#the baseline, but it is not clear if it is lower statistically just by looking
+#at the boxplot. the data for Group 2 also appears slightly more condenced and
+#does not appear to show as much outliers as are seen in Group 1 after six months, 
+# and most of the outliers seem to be in above the data, suggesting higher number 
+#of messages. Group 2 is still showing some skew in the data. 
 
 
 #______________________________________________________________________________
