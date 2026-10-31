@@ -7,9 +7,6 @@
 #And show documentation of changes as we update the file
 
 #Set working directory using file.path() function for printing 
-setwd(file.path("~/Desktop", "Brown", 
-                "1 BHDS2010 Statistical Programming for Health Data Science", 
-                "Assignment 3", "Assignment-3"))
 
 TextMSG <- read.csv("TextMessages.csv")
 
@@ -25,9 +22,6 @@ library(Hmisc)
 
 #______________________________________________________________________________
 #Looking at the data and understanding how it is broken down in the file
-
-names(TextMSG)
-#This produces 4 variable names that are present in the file
 
 is.data.frame (TextMSG)
 #The response of "True" suggests that our data is a data frame
@@ -80,7 +74,6 @@ TextMSG_long <- TextMSG %>% pivot_longer (cols = c(Baseline, Six_months),
 #original column names (combining Baseline and Six_months into a single column)
 
 #We also can check what the data now looks like:
-str (TextMSG_long)
 head (TextMSG_long)
 #Both show that the data has been transformed.
 
