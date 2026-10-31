@@ -204,6 +204,8 @@ TextMSG_long %>%
 #Q1 to Q3: 56 to 64).
 
 #These means are consistent with the bar chart in Visualization 2.
+#Note: the SD describes the spread of individual text message counts, while
+#the error bars in Visualization 2 show 95% confidence intervals for each mean.
 #______________________________________________________________________________
 
 #Conclusions
