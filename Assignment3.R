@@ -174,8 +174,35 @@ barplot_TextMSG_long + stat_summary(fun = mean, geom = "bar",
 #______________________________________________________________________________
 #Summary statistics
 
+#Summarize text messages by group and time 
+TextMSG_long %>% 
+  group_by(Group, Time) %>%
+  summarise(n=n(), 
+            mean=mean(TextMessages),
+            SD=sd(TextMessages),
+            median=median(TextMessages),
+            Q1=quantile(TextMessages, 0.25),
+            Q3=quantile(TextMessages, 0.75),
+            .groups = "drop")
 
+#The summary statistics describe the number of text messages by group and time.
 
+#At baseline, the two groups are very similar. Group 1 has a mean of 64.8
+#(SD = 10.7) and a median of 64, and Group 2 has a mean of 65.6 (SD = 10.8)
+#and a median of 65.
 
+#At six months, both groups sent fewer text messages, but the drop was larger
+#for Group 1. Group 1's mean fell to 53.0 and its median fell to 58, while 
+#Group 2's mean fell to 61.8 and its median to 62.
+
+#At six months, Group 1's mean (53.0) is noticeably lower than its median (58),
+#and its standard deviation increased to 16.3, which is consistent with the low
+#outliers shown in the boxplot in Visualization 1. These outliers pull the mean 
+#down for Group 1 at six months. Group 1's middle 50% of values 
+#(Q1 to Q3: 50 to 61) became more concentrated at six months, even as SD 
+#increased. Group 2's spread decreased slightly at six months (SD = 9.41, 
+#Q1 to Q3: 56 to 64).
+
+#These means are consistent with the bar chart in Visualization 2.
 #______________________________________________________________________________
 #Conclusions
