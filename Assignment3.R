@@ -3,7 +3,7 @@
 #Initial set up of the GitHub for the assignment
 
 
-#This assignment will create 4 different visualizations, run summary statistics
+#This assignment will create 2 different visualizations, run summary statistics
 #And show documentation of changes as we update the file
 
 #Set working directory using file.path() function for printing 
@@ -15,11 +15,11 @@ TextMSG <- read.csv("TextMessages.csv")
 
 #_____________________________________________________________________________
 #Importing libraries to be used throughout the data 
-install.packages("tidyverse")
+#install.packages("tidyverse")
 library (tidyverse)
 #install.packages("gglplot2")
 library(ggplot2)
-install.packages("Hmisc")
+#install.packages("Hmisc")
 library(Hmisc)
 
 
@@ -205,4 +205,14 @@ TextMSG_long %>%
 
 #These means are consistent with the bar chart in Visualization 2.
 #______________________________________________________________________________
+
 #Conclusions
+#This assignment create 2 different visualizations using ggplot () for both
+#box plot and bar plot. Both sets of plots show similar patterns with 
+#decrease in medians from the baseline to six months. Summary statistics where 
+#the presented and across all data Group 1's mean decreased compared from 64.8
+#to 53.0 messages, compared with decrease from 65.6 to 61.8 messages in Group 2.
+#Based across different information we also see that Group 1 has greater overall
+#variability at six months, with low values contributing to a mean below its
+#median. Together, these findings are suggsetive and descriptive of the presented
+#data. 
