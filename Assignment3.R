@@ -6,7 +6,10 @@
 #This assignment will create 4 different visualizations, run summary statistics
 #And show documentation of changes as we update the file
 
-setwd("~/Desktop/Brown/1 BHDS2010 Statistical Programming for Health Data Science/Assignment 3/Assignment-3")
+#Set working directory using file.path() function for printing 
+setwd(file.path("~/Desktop", "Brown", 
+                "1 BHDS2010 Statistical Programming for Health Data Science", 
+                "Assignment 3", "Assignment-3"))
 
 TextMSG <- read.csv("TextMessages.csv")
 
@@ -16,6 +19,8 @@ install.packages("tidyverse")
 library (tidyverse)
 #install.packages("gglplot2")
 library(ggplot2)
+install.packages("Hmisc")
+library(Hmisc)
 
 
 #______________________________________________________________________________
@@ -133,9 +138,38 @@ ggplot(TextMSG_long, aes(x=Group, y = TextMessages, fill = Group))+
 #Visualization 2
 
 
+#Create bar plot for global use and assign to object barplot_TextMSG_long
+barplot_TextMSG_long <- ggplot(TextMSG_long, 
+                               aes(Group, TextMessages, fill = Group))
 
+#Create barplot with desired formatting, using color blind accessible colors:
+barplot_TextMSG_long + stat_summary(fun = mean, geom = "bar", 
+                                    colour = "Black", alpha = 0.75) + 
+  stat_summary(fun.data = mean_cl_normal, geom ="errorbar", colour = "black",
+               width = 0.25) +
+  facet_wrap(~Time) +
+  scale_fill_manual(values = c("#56B4E9", "#E69F00")) +
+  labs(x="Group", y="Number of Text Messages", 
+       title = "Mean Number of Text Messages by Group and Time", 
+       subtitle = "with 95% Confidence Intervals") +
+  theme_bw() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        axis.title = element_text(hjust = 0.5, size = 12, face = "bold"), 
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "bold"), 
+        legend.position = "none") +
+  scale_y_continuous(breaks = seq(from =0, to =70, by=5)) 
 
+#The bar plots depict the mean number of text messages by group and time 
+#with superimposed error bars in black. The error bars represent the 95% 
+#confidence intervals about the mean. 
 
+#The bar plots show that the mean number of text messages for the groups at 
+#the baseline time are both around 65. The plots at six months show group 1
+#had a noticeable drop in number of text messages with a mean around 53 while 
+#the mean for group 2 dropped to about 62. The confidence intervals at six 
+#months overlap partially, so the plot alone does not establish whether the 
+#groups differ significantly; a formal statistical test would be needed to draw 
+#that conclusion.
 
 #______________________________________________________________________________
 #Summary statistics
