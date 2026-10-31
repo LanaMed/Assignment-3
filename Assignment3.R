@@ -137,14 +137,11 @@ ggplot(TextMSG_long, aes(x=Group, y = TextMessages, fill = Group))+
 #______________________________________________________________________________
 #Visualization 2
 
-
-#Create bar plot for global use and assign to object barplot_TextMSG_long
+#Create barplot with desired formatting, using color blind accessible colors, 
+#and assign to barplot_TextMSG_long object:
 barplot_TextMSG_long <- ggplot(TextMSG_long, 
-                               aes(Group, TextMessages, fill = Group))
-
-#Create barplot with desired formatting, using color blind accessible colors:
-barplot_TextMSG_long + stat_summary(fun = mean, geom = "bar", 
-                                    colour = "Black", alpha = 0.75) + 
+                               aes(Group, TextMessages, fill = Group)) + 
+  stat_summary(fun = mean, geom = "bar", colour = "Black", alpha = 0.75) + 
   stat_summary(fun.data = mean_cl_normal, geom ="errorbar", colour = "black",
                width = 0.25) +
   facet_wrap(~Time) +
@@ -158,6 +155,9 @@ barplot_TextMSG_long + stat_summary(fun = mean, geom = "bar",
         plot.subtitle = element_text(hjust = 0.5, size = 12, face = "bold"), 
         legend.position = "none") +
   scale_y_continuous(breaks = seq(from =0, to =70, by=5)) 
+
+#Display bar plot:
+barplot_TextMSG_long
 
 #The bar plots depict the mean number of text messages by group and time 
 #with superimposed error bars in black. The error bars represent the 95% 
