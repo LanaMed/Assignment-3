@@ -176,7 +176,7 @@ barplot_TextMSG_long
 #Summary statistics
 
 #Summarize text messages by group and time 
-TextMSG_long %>% 
+SummaryTable_byGroupTime <- TextMSG_long %>% 
   group_by(Group, Time) %>%
   summarise(n=n(), 
             mean=mean(TextMessages),
@@ -185,6 +185,9 @@ TextMSG_long %>%
             Q1=quantile(TextMessages, 0.25),
             Q3=quantile(TextMessages, 0.75),
             .groups = "drop")
+knitr::kable(SummaryTable_byGroupTime, format = "markdown",
+             digits = 2,
+             caption = "Summary Statistics of Text Messages by Group Time")
 
 #The summary statistics describe the number of text messages by group and time.
 
