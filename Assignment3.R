@@ -1,17 +1,16 @@
 #Assignment 3
 
-#Initial set up of the GitHub for the assignment
-
-
 #This assignment will create 2 different visualizations, run summary statistics
 #And show documentation of changes as we update the file
 
-#Set working directory using file.path() function for printing 
+#Set working directory using file.path() function for printing. We removed setwd()
+#as we are working in RStudio through git
 
 TextMSG <- read.csv("TextMessages.csv")
 
 #_____________________________________________________________________________
 #Importing libraries to be used throughout the data 
+
 #install.packages("tidyverse")
 library (tidyverse)
 #install.packages("gglplot2")
@@ -37,8 +36,7 @@ str(TextMSG)
 #In addition it shows that each participant has two measurements: baseline and 
 #Six_months
 
-#The data is showing that our group variable is likely an integer, even though it
-#should likely be a chategory. Double checking:
+#Checking if it is a factor: 
 is.factor (TextMSG$Group)
 #This confirms that our group variable needs to be adjusted to be a categorical
 #variable. To double check what the groups look like:
@@ -79,10 +77,6 @@ head (TextMSG_long)
 
 #Since the variable Time is also two measurement, we want to check if that is a
 #factor as well, and we look at the levels to identify if it needs to be adjusted:
-levels (TextMSG_long$Time)
-#Since we see NULL as the response, Time variable is not likely a factor. 
-class(TextMSG_long$Time)
-#This notes that it is stored as a "character"
 is.factor (TextMSG_long$Time)
 #This confirms that it is not, so we can convert it:
 
@@ -90,9 +84,7 @@ TextMSG_long$Time <- factor (TextMSG_long$Time,
                              levels = c("Baseline", "Six_months"))
 
 is.factor(TextMSG_long$Time)
-levels (TextMSG_long$Time)
-#Now we see that the variable Time has been converted into a factor and has 
-#two levels.
+#Now we see that the variable Time has been converted into a factor.
 
 #Double checking that all of the variables are in the correct formats:
 str(TextMSG_long)
@@ -104,28 +96,44 @@ str(TextMSG_long)
 #This plot also has the data points plotted in the background to make it clearer
 #to show the spread.
 
-ggplot(TextMSG_long, aes(x=Group, y = TextMessages, fill = Group))+
-       geom_boxplot(alpha =0.4)+ 
+boxplot_TextMSG_long <- ggplot(TextMSG_long, aes(x=Group, 
+                                                 y = TextMessages, 
+                                                 fill = Group))+
+  geom_boxplot(alpha =0.4, outlier.shape = NA)+ 
   geom_jitter(width = 0.20, alpha = 0.4) +
   facet_wrap(~Time) + 
   labs (title = "Distribution of text messages by group and time",
         x = "Group",
         y = "Number of text messages" ) +
-  theme_minimal() 
-       
-#Based on the box plot, at the baseline, both groups have very similar medians and 
-#also looks like they have similar spread, with no visible outliers. 
-#However after 6 months, there is a visual difference, where the medians for both 
-#groups appear to have changed, with  Group 1 showing lower median and much more 
-#outliers. Group 1 also appears to show a skew towareds lower number of text 
-#messages. The outliers for group 1 appear to be more spread out and both above
-#and below group data. Group 2's median visually appears slightly lower then 
-#the baseline, but it is not clear if it is lower statistically just by looking
-#at the boxplot. the data for Group 2 also appears slightly more condenced and
-#does not appear to show as much outliers as are seen in Group 1 after six months, 
-# and most of the outliers seem to be in above the data, suggesting higher number 
-#of messages. Group 2 is still showing some skew in the data. 
+  theme(plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+        axis.title = element_text(hjust = 0.5, size = 12, face = "bold"), 
+        plot.subtitle = element_text(hjust = 0.5, size = 12, face = "bold"), 
+        legend.position = "none") +
+  scale_y_continuous(breaks = seq(from =0, to =70, by=5)) 
 
+#Since we are plotting the points, we took out the outliers so they are not
+#plotted twice
+
+#View the plot:
+boxplot_TextMSG_long
+
+#Based on the box plot, at the baseline, both groups have very similar medians and 
+#also looks like they have similar spread and distribution of text messages, 
+#with no visible outliers. Their median numbers of messages were approximately
+# 64 for Group 1 and 65 for Group 2. In addition, and their boxes overlapped 
+#considerably, indicating similar central tendencies and variability.
+#However after 6 months, there is a visual differences between the two groups
+#At six months, the median decreased in both groups. Group 1 decreased to 
+#approximately 58 messages, whereas Group 2 decreased to approximately 62 messages.
+#Group 1 also showed greater variability at six months and had several unusually 
+#low observations, including values below 20 messages. 
+#The outliers for group 1 appear to be more spread out and both above
+#and below group data.
+#In comparison, Group 2 had a somewhat higher median and a more tightly clustered 
+#distribution at six months.
+#Overall, the graph suggests a larger decrease and greater variability for 
+#Group 1, although a statistical test is needed as these are just visual 
+#observations.
 
 #______________________________________________________________________________
 #Visualization 2
@@ -202,12 +210,22 @@ TextMSG_long %>%
 #______________________________________________________________________________
 
 #Conclusions
-#This assignment create 2 different visualizations using ggplot () for both
-#box plot and bar plot. Both sets of plots show similar patterns with 
-#decrease in medians from the baseline to six months. Summary statistics where 
-#the presented and across all data Group 1's mean decreased compared from 64.8
-#to 53.0 messages, compared with decrease from 65.6 to 61.8 messages in Group 2.
-#Based across different information we also see that Group 1 has greater overall
-#variability at six months, with low values contributing to a mean below its
-#median. Together, these findings are suggsetive and descriptive of the presented
-#data. 
+#This assignment focused on creating 2 different visualizations using ggplot () 
+#for both box plot and bar plot. Both sets of plots show similar patterns with 
+#decrease in medians from the baseline to six months. 
+
+#Based on the summary statistics and the plots, at baseline, the two groups 
+#were very similar in their number of text messages, with means of 64.8 for 
+#Group 1 and 65.6 for Group 2. At six months, the mean decreased in both groups, 
+#but the reduction was larger in Group 1. Group 1 decreased by 11.8 messages on 
+#average, from 64.8 to 53.0, whereas Group 2 decreased by 3.8 messages, from 
+#65.6 to 61.8. Group 1 also showed greater variability at six months, with its 
+#standard deviation increasing from 10.7 to 16.3. In contrast, Group 2 remained
+#more consistent, with its standard deviation decreasing slightly from 10.8 to 
+#9.41. Overall, these descriptive results suggest that Group 1 experienced a 
+#larger reduction in text messages and more variation among participants than 
+#Group 2. However, an inferential statistical test would be required to 
+#determine whether these changes and the difference between groups are 
+#statistically significant.
+
+
