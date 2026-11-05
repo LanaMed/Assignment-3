@@ -60,6 +60,5 @@ Visualization 2, summary statistics, README file, final report assembly, submiss
 - `barchart-visualization`: faceted bar chart with 95% CIs
 - `summary-statistics`: summary statistics by Group and Time
 - `Lana-globalbranch`: group edits made during meeting, Lana edits post-meeting, including added conclusion
-- `readme-edits`: completed sections in README file
 - `create-final-report`: created final report in .Rmd file, made final edits 
 - `readme-edits`: finalized README file
